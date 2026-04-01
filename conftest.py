@@ -5,8 +5,9 @@ from playwright.sync_api import sync_playwright
 
 @pytest.fixture(scope="function")
 def browser():
+    headless = os.getenv("HEADLESS", "true") == "true"
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)  # True в CI
+        browser = p.chromium.launch(headless=headless)
         yield browser
         browser.close()
 
